@@ -34,12 +34,7 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": [],
-            "server": "src/main.server.ts",
-            "prerender": true,
-            "ssr": {
-              "entry": "server.ts"
-            }
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -72,7 +67,8 @@
               "buildTarget": "libroteca-frontend:build:production"
             },
             "development": {
-              "buildTarget": "libroteca-frontend:build:development"
+              "buildTarget": "libroteca-frontend:build:development",
+              "proxyConfig": "proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"

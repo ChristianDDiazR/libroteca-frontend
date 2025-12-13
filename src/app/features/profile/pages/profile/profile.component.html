@@ -1,0 +1,100 @@
+<div class="profile-container" *ngIf="user && !loading">
+  <div class="profile-header">
+    <mat-card class="user-card">
+      <div class="user-info">
+        <img [src]="getProfilePicture(user.profile_picture)" 
+             [alt]="user.username" 
+             class="profile-picture"
+             (error)="onImageError($event)">
+        
+        <div class="user-details">
+          <h1>{{ user.username }}</h1>
+          <p class="email">{{ user.email }}</p>
+          <mat-chip-set>
+            <mat-chip [highlighted]="user.role === 'ADMIN'">
+              {{ user.role }}
+            </mat-chip>
+          </mat-chip-set>
+        </div>
+      </div>
+    </mat-card>
+
+    <mat-card class="stats-card">
+      <h2>Estadísticas de Lectura</h2>
+      <mat-divider></mat-divider>
+      
+      <div class="stats-grid">
+        <div class="stat-item">
+          <mat-icon class="stat-icon" color="primary">library_books</mat-icon>
+          <div class="stat-value">{{ getTotalBooks() }}</div>
+          <div class="stat-label">Total de Libros</div>
+        </div>
+        
+        <div class="stat-item">
+          <mat-icon class="stat-icon" style="color: #4CAF50;">bookmark</mat-icon>
+          <div class="stat-value">{{ getListCount('DESEO_LEER') }}</div>
+          <div class="stat-label">Deseo Leer</div>
+        </div>
+        
+        <div class="stat-item">
+          <mat-icon class="stat-icon" style="color: #FF9800;">menu_book</mat-icon>
+          <div class="stat-value">{{ getListCount('LEYENDO') }}</div>
+          <div class="stat-label">Leyendo</div>
+        </div>
+        
+        <div class="stat-item">
+          <mat-icon class="stat-icon" style="color: #2196F3;">check_circle</mat-icon>
+          <div class="stat-value">{{ getListCount('LEIDO') }}</div>
+          <div class="stat-label">Leídos</div>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+
+  <mat-card class="achievements-card">
+    <h2>
+      <mat-icon>emoji_events</mat-icon>
+      Logros Desbloqueados ({{ achievements.length }})
+    </h2>
+    <mat-divider></mat-divider>
+    
+    <div class="achievements-grid" *ngIf="achievements.length > 0">
+      <div *ngFor="let achievement of achievements" 
+           class="achievement-badge"
+           [style.border-color]="getAchievementColor(achievement.achievement_type)">
+        <mat-icon [style.color]="getAchievementColor(achievement.achievement_type)">
+          {{ getAchievementIcon(achievement.achievement_type) }}
+        </mat-icon>
+        <div class="achievement-info">
+          <h3>{{ formatAchievementType(achievement.achievement_type) }}</h3>
+          <p *ngIf="achievement.description">{{ achievement.description }}</p>
+          <p class="unlock-date">Desbloqueado: {{ achievement.unlocked_at | date:'short' }}</p>
+          <div class="progress-bar" *ngIf="achievement.progress !== undefined">
+            <div class="progress-fill" [style.width.%]="achievement.progress"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="empty-achievements" *ngIf="achievements.length === 0">
+      <mat-icon>military_tech</mat-icon>
+      <p>Aún no has desbloqueado ningún logro</p>
+      <p class="hint">Comienza a leer, valorar y comentar para desbloquear logros</p>
+    </div>
+  </mat-card>
+
+  <div class="quick-actions">
+    <button mat-raised-button color="primary" routerLink="/books">
+      <mat-icon>library_books</mat-icon>
+      Explorar Libros
+    </button>
+    <button mat-raised-button color="accent" routerLink="/lists">
+      <mat-icon>list</mat-icon>
+      Mis Listas
+    </button>
+  </div>
+</div>
+
+<div class="loading-container" *ngIf="loading">
+  <mat-spinner></mat-spinner>
+</div>

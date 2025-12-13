@@ -1,0 +1,58 @@
+<mat-toolbar color="primary" class="navbar">
+  <div class="navbar-content">
+    <div class="logo" routerLink="/books">
+      <mat-icon>local_library</mat-icon>
+      <span>Libroteca</span>
+    </div>
+
+    <nav class="nav-links">
+      <a mat-button routerLink="/books" routerLinkActive="active-link">
+        <mat-icon>library_books</mat-icon>
+        Biblioteca
+      </a>
+      
+      <a mat-button routerLink="/lists" routerLinkActive="active-link" *ngIf="isAuthenticated">
+        <mat-icon>list</mat-icon>
+        Mis Listas
+      </a>
+    </nav>
+
+    <div class="user-section">
+      <ng-container *ngIf="isAuthenticated; else notAuthenticated">
+        <button mat-button [matMenuTriggerFor]="userMenu" class="user-button">
+          <img [src]="currentUser?.profile_picture || 'https://via.placeholder.com/40'" 
+               [alt]="currentUser?.username" 
+               class="user-avatar">
+          <span class="username">{{ currentUser?.username }}</span>
+          <mat-icon>arrow_drop_down</mat-icon>
+        </button>
+        
+        <mat-menu #userMenu="matMenu">
+          <button mat-menu-item routerLink="/profile">
+            <mat-icon>person</mat-icon>
+            <span>Mi Perfil</span>
+          </button>
+          <button mat-menu-item routerLink="/lists">
+            <mat-icon>list</mat-icon>
+            <span>Mis Listas</span>
+          </button>
+          <mat-divider></mat-divider>
+          <button mat-menu-item (click)="logout()">
+            <mat-icon>logout</mat-icon>
+            <span>Cerrar Sesión</span>
+          </button>
+        </mat-menu>
+      </ng-container>
+
+      <ng-template #notAuthenticated>
+        <button mat-button routerLink="/auth/login">
+          <mat-icon>login</mat-icon>
+          Iniciar Sesión
+        </button>
+        <button mat-raised-button routerLink="/auth/register" class="register-button">
+          Registrarse
+        </button>
+      </ng-template>
+    </div>
+  </div>
+</mat-toolbar>

@@ -1,0 +1,142 @@
+.my-lists-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 24px;
+
+  h1 {
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 24px;
+    color: #333;
+  }
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+}
+
+.lists-tabs {
+  margin-top: 24px;
+}
+
+.tab-content {
+  padding: 24px 0;
+}
+
+.books-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 24px;
+}
+
+.book-card {
+  transition: transform 0.2s, box-shadow 0.2s;
+  
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+  
+  .book-cover {
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+    cursor: pointer;
+  }
+  
+  mat-card-content {
+    padding: 16px;
+    
+    .book-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin: 0 0 8px 0;
+      color: #333;
+      cursor: pointer;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      
+      &:hover {
+        color: #667eea;
+      }
+    }
+    
+    .book-author {
+      font-size: 14px;
+      color: #666;
+      margin: 0 0 12px 0;
+    }
+    
+    .rating-container {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+      
+      .stars {
+        display: flex;
+        color: #ffc107;
+        
+        mat-icon {
+          font-size: 18px;
+          width: 18px;
+          height: 18px;
+        }
+      }
+      
+      .rating-text {
+        font-size: 14px;
+        color: #666;
+      }
+    }
+    
+    .status-actions {
+      mat-form-field {
+        width: 100%;
+      }
+    }
+  }
+  
+  mat-card-actions {
+    padding: 0 16px 16px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.empty-state {
+  text-align: center;
+  padding: 64px 24px;
+  
+  mat-icon {
+    font-size: 80px;
+    width: 80px;
+    height: 80px;
+    color: #ccc;
+    margin-bottom: 16px;
+  }
+  
+  p {
+    font-size: 16px;
+    color: #999;
+    margin: 0 0 24px 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .books-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 16px;
+  }
+  
+  .book-card .book-cover {
+    height: 250px;
+  }
+}

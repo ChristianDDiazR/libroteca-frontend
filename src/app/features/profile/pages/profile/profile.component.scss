@@ -1,0 +1,253 @@
+.profile-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.profile-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.user-card {
+  padding: 24px;
+  
+  .user-info {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    
+    .profile-picture {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #667eea;
+    }
+    
+    .user-details {
+      flex: 1;
+      
+      h1 {
+        font-size: 28px;
+        font-weight: 600;
+        margin: 0 0 8px 0;
+        color: #333;
+      }
+      
+      .email {
+        font-size: 16px;
+        color: #666;
+        margin: 0 0 12px 0;
+      }
+    }
+  }
+}
+
+.stats-card {
+  padding: 24px;
+  
+  h2 {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 16px 0;
+    color: #333;
+  }
+  
+  mat-divider {
+    margin-bottom: 24px;
+  }
+  
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    
+    .stat-item {
+      text-align: center;
+      
+      .stat-icon {
+        font-size: 40px;
+        width: 40px;
+        height: 40px;
+        margin-bottom: 8px;
+      }
+      
+      .stat-value {
+        font-size: 32px;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 4px;
+      }
+      
+      .stat-label {
+        font-size: 14px;
+        color: #666;
+      }
+    }
+  }
+}
+
+.achievements-card {
+  padding: 24px;
+  margin-bottom: 32px;
+  
+  h2 {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0 0 16px 0;
+    color: #333;
+    
+    mat-icon {
+      color: #FFC107;
+      font-size: 32px;
+      width: 32px;
+      height: 32px;
+    }
+  }
+  
+  mat-divider {
+    margin-bottom: 24px;
+  }
+  
+  .achievements-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    
+    .achievement-badge {
+      display: flex;
+      gap: 16px;
+      padding: 16px;
+      border: 3px solid;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.5);
+      transition: transform 0.2s, box-shadow 0.2s;
+      
+      &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      }
+      
+      mat-icon {
+        font-size: 48px;
+        width: 48px;
+        height: 48px;
+      }
+      
+      .achievement-info {
+        flex: 1;
+        
+        h3 {
+          font-size: 16px;
+          font-weight: 600;
+          margin: 0 0 4px 0;
+          color: #333;
+        }
+        
+        p {
+          font-size: 14px;
+          color: #666;
+          margin: 0 0 4px 0;
+        }
+        
+        .unlock-date {
+          font-size: 12px;
+          color: #999;
+        }
+        
+        .progress-bar {
+          width: 100%;
+          height: 6px;
+          background: #e0e0e0;
+          border-radius: 3px;
+          margin-top: 8px;
+          overflow: hidden;
+          
+          .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 3px;
+            transition: width 0.3s ease;
+          }
+        }
+      }
+    }
+  }
+  
+  .empty-achievements {
+    text-align: center;
+    padding: 64px 24px;
+    
+    mat-icon {
+      font-size: 80px;
+      width: 80px;
+      height: 80px;
+      color: #ccc;
+      margin-bottom: 16px;
+    }
+    
+    p {
+      font-size: 16px;
+      color: #999;
+      margin: 0 0 8px 0;
+      
+      &.hint {
+        font-size: 14px;
+        color: #bbb;
+      }
+    }
+  }
+}
+
+.quick-actions {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  
+  button {
+    mat-icon {
+      margin-right: 8px;
+    }
+  }
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+}
+
+@media (max-width: 768px) {
+  .profile-header {
+    grid-template-columns: 1fr;
+  }
+  
+  .user-card .user-info {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .stats-card .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  
+  .achievements-grid {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .quick-actions {
+    flex-direction: column;
+    
+    button {
+      width: 100%;
+    }
+  }
+}

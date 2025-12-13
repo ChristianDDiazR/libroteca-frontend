@@ -1,0 +1,114 @@
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-content {
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 24px;
+  font-weight: 600;
+  color: white;
+  
+  mat-icon {
+    font-size: 32px;
+    width: 32px;
+    height: 32px;
+  }
+  
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+.nav-links {
+  display: flex;
+  gap: 8px;
+  
+  a {
+    color: white;
+    
+    mat-icon {
+      margin-right: 8px;
+    }
+    
+    &.active-link {
+      background: rgba(255, 255, 255, 0.2);
+    }
+  }
+}
+
+.user-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  
+  .user-button {
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    
+    .user-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid white;
+    }
+    
+    .username {
+      max-width: 150px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+  
+  button {
+    mat-icon {
+      margin-right: 8px;
+    }
+  }
+  
+  .register-button {
+    background: white;
+    color: #667eea;
+    
+    &:hover {
+      background: #f5f5f5;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar-content {
+    padding: 0 8px;
+  }
+  
+  .logo span {
+    display: none;
+  }
+  
+  .nav-links a span {
+    display: none;
+  }
+  
+  .user-section .username {
+    display: none;
+  }
+}

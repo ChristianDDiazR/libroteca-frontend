@@ -1,0 +1,183 @@
+<div class="my-lists-container">
+  <h1>Mis Listas de Lectura</h1>
+
+  <div class="loading-container" *ngIf="loading">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <mat-tab-group *ngIf="!loading" class="lists-tabs">
+    <mat-tab label="Deseo Leer">
+      <div class="tab-content">
+        <div class="books-grid" *ngIf="getListsByStatus('DESEO_LEER').length > 0">
+          <mat-card *ngFor="let item of getListsByStatus('DESEO_LEER')" class="book-card">
+            <img mat-card-image 
+                 [src]="getImageSrc(item.book?.cover_image_url)" 
+                 [alt]="item.book?.title" 
+                 class="book-cover"
+                 (error)="onImageError($event)"
+                 (click)="viewBookDetail(item.book_id)">
+            
+            <mat-card-content>
+              <h3 class="book-title" (click)="viewBookDetail(item.book_id)">
+                {{ item.book?.title }}
+              </h3>
+              <p class="book-author" *ngIf="item.book?.author">{{ item.book?.author }}</p>
+              
+              <div class="rating-container" *ngIf="item.book?.average_rating">
+                <div class="stars">
+                  <mat-icon *ngFor="let star of getStars(item.book?.average_rating)">{{ star }}</mat-icon>
+                </div>
+                <span class="rating-text">{{ item.book?.average_rating?.toFixed(1) }}</span>
+              </div>
+
+              <div class="status-actions">
+                <mat-form-field appearance="outline">
+                  <mat-label>Cambiar estado</mat-label>
+                  <mat-select [value]="item.status" (selectionChange)="updateStatus(item, $event.value)">
+                    <mat-option *ngFor="let option of statusOptions" [value]="option.value">
+                      {{ option.label }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </mat-card-content>
+            
+            <mat-card-actions>
+              <button mat-button color="primary" (click)="viewBookDetail(item.book_id)">
+                Ver Detalles
+              </button>
+              <button mat-icon-button color="warn" (click)="removeFromList(item.book_id)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+        
+        <div class="empty-state" *ngIf="getListsByStatus('DESEO_LEER').length === 0">
+          <mat-icon>bookmark_border</mat-icon>
+          <p>No tienes libros en esta lista</p>
+          <button mat-raised-button color="primary" routerLink="/books">
+            Explorar Libros
+          </button>
+        </div>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Leyendo">
+      <div class="tab-content">
+        <div class="books-grid" *ngIf="getListsByStatus('LEYENDO').length > 0">
+          <mat-card *ngFor="let item of getListsByStatus('LEYENDO')" class="book-card">
+            <img mat-card-image 
+                 [src]="getImageSrc(item.book?.cover_image_url)" 
+                 [alt]="item.book?.title" 
+                 class="book-cover"
+                 (error)="onImageError($event)"
+                 (click)="viewBookDetail(item.book_id)">
+            
+            <mat-card-content>
+              <h3 class="book-title" (click)="viewBookDetail(item.book_id)">
+                {{ item.book?.title }}
+              </h3>
+              <p class="book-author" *ngIf="item.book?.author">{{ item.book?.author }}</p>
+              
+              <div class="rating-container" *ngIf="item.book?.average_rating">
+                <div class="stars">
+                  <mat-icon *ngFor="let star of getStars(item.book?.average_rating)">{{ star }}</mat-icon>
+                </div>
+                <span class="rating-text">{{ item.book?.average_rating?.toFixed(1) }}</span>
+              </div>
+
+              <div class="status-actions">
+                <mat-form-field appearance="outline">
+                  <mat-label>Cambiar estado</mat-label>
+                  <mat-select [value]="item.status" (selectionChange)="updateStatus(item, $event.value)">
+                    <mat-option *ngFor="let option of statusOptions" [value]="option.value">
+                      {{ option.label }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </mat-card-content>
+            
+            <mat-card-actions>
+              <button mat-button color="primary" (click)="viewBookDetail(item.book_id)">
+                Ver Detalles
+              </button>
+              <button mat-icon-button color="warn" (click)="removeFromList(item.book_id)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+        
+        <div class="empty-state" *ngIf="getListsByStatus('LEYENDO').length === 0">
+          <mat-icon>menu_book</mat-icon>
+          <p>No tienes libros en esta lista</p>
+          <button mat-raised-button color="primary" routerLink="/books">
+            Explorar Libros
+          </button>
+        </div>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Leídos">
+      <div class="tab-content">
+        <div class="books-grid" *ngIf="getListsByStatus('LEIDO').length > 0">
+          <mat-card *ngFor="let item of getListsByStatus('LEIDO')" class="book-card">
+            <img mat-card-image 
+                 [src]="getImageSrc(item.book?.cover_image_url)" 
+                 [alt]="item.book?.title" 
+                 class="book-cover"
+                 (error)="onImageError($event)"
+                 (click)="viewBookDetail(item.book_id)">
+            
+            <mat-card-content>
+              <h3 class="book-title" (click)="viewBookDetail(item.book_id)">
+                {{ item.book?.title }}
+              </h3>
+              <p class="book-author" *ngIf="item.book?.author">{{ item.book?.author }}</p>
+              
+              <div class="rating-container" *ngIf="item.book?.average_rating">
+                <div class="stars">
+                  <mat-icon *ngFor="let star of getStars(item.book?.average_rating)">{{ star }}</mat-icon>
+                </div>
+                <span class="rating-text">{{ item.book?.average_rating?.toFixed(1) }}</span>
+              </div>
+
+              <div class="status-actions">
+                <mat-form-field appearance="outline">
+                  <mat-label>Cambiar estado</mat-label>
+                  <mat-select [value]="item.status" (selectionChange)="updateStatus(item, $event.value)">
+                    <mat-option *ngFor="let option of statusOptions" [value]="option.value">
+                      {{ option.label }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </mat-card-content>
+            
+            <mat-card-actions>
+              <button mat-button color="primary" (click)="viewBookDetail(item.book_id)">
+                Ver Detalles
+              </button>
+              <button mat-icon-button color="warn" (click)="removeFromList(item.book_id)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+        
+        <div class="empty-state" *ngIf="getListsByStatus('LEIDO').length === 0">
+          <mat-icon>check_circle_outline</mat-icon>
+          <p>No tienes libros en esta lista</p>
+          <button mat-raised-button color="primary" routerLink="/books">
+            Explorar Libros
+          </button>
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>
+
+
+

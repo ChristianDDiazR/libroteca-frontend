@@ -1,0 +1,57 @@
+<div class="book-form-container">
+  <mat-card class="form-card">
+    <mat-card-header>
+      <mat-card-title>{{ getTitle() }}</mat-card-title>
+    </mat-card-header>
+    
+    <mat-card-content>
+      <form [formGroup]="bookForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Título *</mat-label>
+          <input matInput formControlName="title" placeholder="Título del libro">
+          <mat-error *ngIf="bookForm.get('title')?.hasError('required')">
+            El título es requerido
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Autor</mat-label>
+          <input matInput formControlName="author" placeholder="Nombre del autor">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Género</mat-label>
+          <input matInput formControlName="genre" placeholder="Género literario">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Descripción</mat-label>
+          <textarea matInput formControlName="description" rows="3" 
+                    placeholder="Descripción breve del libro"></textarea>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Sinopsis</mat-label>
+          <textarea matInput formControlName="synopsis" rows="5" 
+                    placeholder="Sinopsis detallada del libro"></textarea>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>URL de la portada</mat-label>
+          <input matInput formControlName="cover_image_url" type="url" 
+                 placeholder="https://ejemplo.com/portada.jpg">
+        </mat-form-field>
+
+        <div class="form-actions">
+          <button mat-raised-button color="primary" type="submit" 
+                  [disabled]="bookForm.invalid || loading">
+            {{ getSubmitButtonText() }}
+          </button>
+          <button mat-button type="button" routerLink="/books">
+            Cancelar
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

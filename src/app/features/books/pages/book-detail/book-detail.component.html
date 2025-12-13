@@ -1,0 +1,144 @@
+<div class="book-detail-container" *ngIf="!loading && book">
+  <button mat-button routerLink="/books" class="back-button">
+    <mat-icon>arrow_back</mat-icon>
+    Volver a la biblioteca
+  </button>
+
+  <div class="book-content">
+    <div class="book-info">
+      <img [src]="getImageSrc(book.cover_image_url)" 
+           [alt]="book.title" 
+           class="book-cover"
+           (error)="onImageError($event)">
+      
+      <div class="book-actions" *ngIf="isAdmin">
+        <button mat-raised-button color="primary" (click)="editBook()">
+          <mat-icon>edit</mat-icon>
+          Editar
+        </button>
+        <button mat-raised-button color="warn" (click)="deleteBook()">
+          <mat-icon>delete</mat-icon>
+          Eliminar
+        </button>
+      </div>
+    </div>
+
+    <div class="book-details">
+      <h1>{{ book.title }}</h1>
+      <h2 *ngIf="book.author">{{ book.author }}</h2>
+      
+      <mat-chip-set *ngIf="book.genre">
+        <mat-chip>{{ book.genre }}</mat-chip>
+      </mat-chip-set>
+
+      <div class="rating-section" *ngIf="rating">
+        <div class="average-rating">
+          <div class="stars">
+            <mat-icon *ngFor="let star of getStars(rating.average)">{{ star }}</mat-icon>
+          </div>
+          <span class="rating-text">
+            {{ rating.average.toFixed(1) }} / 5.0 ({{ rating.count }} valoraciones)
+          </span>
+        </div>
+
+        <div class="user-rating" *ngIf="isAuthenticated">
+          <p>Tu valoración:</p>
+          <div class="interactive-stars">
+            <mat-icon *ngFor="let i of getRatingStars()" 
+                      [class.filled]="i <= getDisplayRating()"
+                      (click)="setRating(i)"
+                      (mouseenter)="onMouseEnter(i)"
+                      (mouseleave)="onMouseLeave()">
+              {{ i <= getDisplayRating() ? 'star' : 'star_border' }}
+            </mat-icon>
+          </div>
+        </div>
+      </div>
+
+      <mat-divider></mat-divider>
+
+      <div class="description" *ngIf="book.description">
+        <h3>Descripción</h3>
+        <p>{{ book.description }}</p>
+      </div>
+
+      <div class="synopsis" *ngIf="book.synopsis">
+        <h3>Sinopsis</h3>
+        <p>{{ book.synopsis }}</p>
+      </div>
+    </div>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <!-- Sección de Comentarios -->
+  <div class="comments-section">
+    <h2>Comentarios ({{ comments.length }})</h2>
+
+    <form [formGroup]="commentForm" (ngSubmit)="onSubmitComment()" 
+          *ngIf="isAuthenticated" class="comment-form">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ editingCommentId ? 'Editar comentario' : 'Escribe tu comentario' }}</mat-label>
+        <textarea matInput formControlName="content" rows="3" 
+                  placeholder="Comparte tu opinión sobre este libro..."></textarea>
+        <mat-error *ngIf="commentForm.get('content')?.hasError('required')">
+          El comentario es requerido
+        </mat-error>
+        <mat-error *ngIf="commentForm.get('content')?.hasError('minlength')">
+          Mínimo 3 caracteres
+        </mat-error>
+      </mat-form-field>
+
+      <div class="form-actions">
+        <button mat-raised-button color="primary" type="submit" 
+                [disabled]="commentForm.invalid">
+          {{ editingCommentId ? 'Actualizar' : 'Publicar' }} Comentario
+        </button>
+        <button mat-button type="button" *ngIf="editingCommentId" (click)="cancelEdit()">
+          Cancelar
+        </button>
+      </div>
+    </form>
+
+    <div class="login-prompt" *ngIf="!isAuthenticated">
+      <p>
+        <a routerLink="/auth/login">Inicia sesión</a> para dejar tu comentario
+      </p>
+    </div>
+
+    <div class="comments-list">
+      <mat-card *ngFor="let comment of comments" class="comment-card">
+        <mat-card-content>
+          <div class="comment-header">
+            <div class="user-info">
+              <img [src]="comment.user?.profile_picture || 'https://via.placeholder.com/40'" 
+                   [alt]="comment.user?.username" class="user-avatar">
+              <div>
+                <span class="username">{{ comment.user?.username }}</span>
+                <span class="date">{{ comment.created_at | date:'short' }}</span>
+              </div>
+            </div>
+            <div class="comment-actions" *ngIf="canEditComment(comment)">
+              <button mat-icon-button (click)="editComment(comment)">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" (click)="deleteComment(comment.id)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </div>
+          <p class="comment-content">{{ comment.content }}</p>
+        </mat-card-content>
+      </mat-card>
+
+      <div class="empty-comments" *ngIf="comments.length === 0">
+        <mat-icon>comment</mat-icon>
+        <p>Aún no hay comentarios. ¡Sé el primero en comentar!</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="loading-container" *ngIf="loading">
+  <mat-spinner></mat-spinner>
+</div>
