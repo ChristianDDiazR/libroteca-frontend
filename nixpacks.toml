@@ -5,7 +5,7 @@ nixPkgs = ['nodejs_20']
 cmds = ['npm ci']
 
 [phases.build]
-cmds = ['npm run build']
+cmds = ['npm run build -- --configuration production']
 
 [start]
-cmd = 'npx http-server dist/libroteca-frontend/browser -p $PORT'
+cmd = 'npx http-server dist/libroteca-frontend/browser -p $PORT -c-1'
