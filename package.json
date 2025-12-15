@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "http-server dist/libroteca-frontend/browser -p $PORT -a 0.0.0.0 -c-1",
+    "start": "sh start.sh",
     "dev": "ng serve --proxy-config proxy.conf.json",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
